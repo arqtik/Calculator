@@ -43,7 +43,7 @@ namespace Calculator
                             Console.WriteLine(SquareRoot());
                             break;
                         case 6:
-                            Console.WriteLine();
+                            Console.WriteLine(Exponential());
                             break;
 
                         default:
@@ -137,13 +137,28 @@ namespace Calculator
         /// <returns>Returns formatted string with the result of the subtraction</returns>
         private string Subtraction()
         {
-            double result = 0;
-            foreach (double d in GetNumbersFromInput())
+            // Get the numbers from user
+            List<double> numbers = GetNumbersFromInput();
+
+            // Check so we have numbers to subtract
+            if (numbers.Count > 0)
             {
-                result -= d;
+                // Assign first element so we don't get unexpected results
+                // e.g. first input -10 so first iteration would be 0 - (-10) = 10
+                double result = numbers[0];
+
+                // Remove first element since we just used it
+                numbers.RemoveAt(0);
+
+                foreach (double d in numbers)
+                {
+                    result -= d;
+                }
+
+                return $"Result: {result}";
             }
 
-            return $"Result: {result}";
+            return "No valid inputs for operation";
         }
 
         /// <summary>
@@ -195,16 +210,49 @@ namespace Calculator
             // Format strResult with all of our results
             foreach (double item in result)
             {
-                strResult += $" _/´´{item},";
+                strResult += $" {item},";
             }
 
-            // Clean up string by checking for a trailing comma and removing it
+            // Clean up return string by checking for a trailing comma and removing it
             if (strResult[strResult.Length - 1] == ',')
             {
                 strResult = strResult.Remove(strResult.Length - 1);
             }
 
             return strResult;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        private string Exponential()
+        {
+            Console.WriteLine("First input is the base, the rest are exponents");
+
+            // Get the base number from user
+            List<double> numbers = GetNumbersFromInput();
+
+            // Check so we have more than one input so we can do the operation
+            if (numbers.Count > 1)
+            {
+                // Assign first element so we don't get unexpected results
+                // e.g. input is 3,2 would make it
+                // 0 ^ 3 ^ 2 = 0
+                double result = numbers[0];
+
+                // Remove first element we already assigned
+                numbers.RemoveAt(0);
+
+                foreach (double d in numbers)
+                {
+                    result = Math.Pow(result, d);
+                }
+
+                return $"Result: {result}";
+            }
+
+            return "None or not enough inputs for operation, need more than 1";
         }
     }
 }
