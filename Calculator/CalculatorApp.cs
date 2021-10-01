@@ -28,7 +28,7 @@ namespace Calculator
                             isRunning = false;
                             break;
                         case 1:
-                            Console.WriteLine(Addition());
+                            Console.WriteLine("Result: " + Addition());
                             break;
                         case 2:
                             Console.WriteLine(Subtraction());
